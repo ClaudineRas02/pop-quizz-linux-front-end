@@ -3,17 +3,22 @@ import FormInput from "@/components/common/FormInput.tsx";
 import { emailSchema, passwordSchema, validateField } from "@/lib/input.validator.ts";
 import { Lock, Mail } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import ValidationDialog from "@/components/common/ValidationDialog.tsx";
 import { useAuthenticate } from "../hooks/useAuth.ts";
 import toast from "react-hot-toast";
 import FormContainer from "./FormContainer.tsx";
+
+type AuthTokenPayload = {
+  role?: string;
+};
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  const { authenticate, isPending, isSuccess, error } = useAuthenticate();
+  const { authenticate, isPending, isSuccess, error, data } = useAuthenticate();
   const navigate = useNavigate();
 
   const v = {
@@ -32,9 +37,11 @@ export default function LoginForm() {
       toast.success("Vous êtes connecté", {
         position: "top-center",
       });
-      navigate("/");
+      const token = data?.data?.token;
+      const { role } = token ? jwtDecode<AuthTokenPayload>(token) : {};
+      navigate(role === "admin" ? "/admin" : "/", { replace: true });
     }
-  }, [isSuccess, navigate]);
+  }, [data, isSuccess, navigate]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
