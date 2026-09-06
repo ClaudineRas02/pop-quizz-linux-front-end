@@ -19,7 +19,7 @@ env:
 
 jobs:
   quality:
-    name: Lint & Test
+    name: Lint & Test & sonar scan
     runs-on: ubuntu-latest
 
     steps:
