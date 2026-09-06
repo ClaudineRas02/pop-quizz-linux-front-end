@@ -43,6 +43,13 @@ jobs:
       - name: Test
         run: npm test
 
+      - name: sonar scan
+        uses: SonarSource/sonar-scan-action@v7
+        with:
+          projectBaseDir: .
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
   docker:
     name: Build & Push Docker image
     needs: quality
