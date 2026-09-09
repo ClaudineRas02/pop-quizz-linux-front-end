@@ -1,8 +1,8 @@
 import axios from "axios";
 import APP_CONFIG from "../../app.config";
 
-const { hostname, port } = APP_CONFIG.API_CONFIG;
-const BASE_URL = `http://${hostname}:${port}/api`;
+const { hostname } = APP_CONFIG.API_CONFIG;
+const BASE_URL = `http://${hostname}}/api`;
 
 function createClient(endpoint: string) {
   const client = axios.create({
@@ -27,8 +27,7 @@ function createClient(endpoint: string) {
       client.put<T>(url, data).then((r) => r.data),
     patch: <T>(url: string, data?: unknown) =>
       client.patch<T>(url, data).then((r) => r.data),
-    delete: <T>(url: string) =>
-      client.delete<T>(url).then((r) => r.data),
+    delete: <T>(url: string) => client.delete<T>(url).then((r) => r.data),
   };
 }
 
