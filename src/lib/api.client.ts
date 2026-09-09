@@ -2,7 +2,7 @@ import axios from "axios";
 import APP_CONFIG from "../../app.config";
 
 const { hostname } = APP_CONFIG.API_CONFIG;
-const BASE_URL = `http://${hostname}}/api`;
+const BASE_URL = `http://${hostname}/api`;
 
 function createClient(endpoint: string) {
   const client = axios.create({
