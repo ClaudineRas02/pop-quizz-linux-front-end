@@ -2,6 +2,9 @@
 
 FROM node:24-bookworm-slim AS build
 
+ARG VITE_API_HOSTNAME
+ENV VITE_API_HOSTNAME=$VITE_API_HOSTNAME
+
 WORKDIR /app
 
 # Keep dependency installation cacheable while ensuring the lock file is obeyed.

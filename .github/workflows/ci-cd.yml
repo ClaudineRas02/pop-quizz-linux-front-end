@@ -78,5 +78,7 @@ jobs:
           tags: |
             ${{ env.IMAGE_NAME }}:${{ github.sha }}
             ${{ env.IMAGE_NAME }}:latest
+          build-args: |
+            VITE_API_HOSTNAME=192.168.56.2
           cache-from: type=gha
           cache-to: type=gha,mode=max
