@@ -2,6 +2,7 @@ import axios from "axios";
 import APP_CONFIG from "../../app.config";
 
 const { hostname, port } = APP_CONFIG.API_CONFIG;
+console.log("API Config:", { hostname, port });
 const BASE_URL = `http://${hostname}${port ? `:${port}` : ""}/api`;
 
 function createClient(endpoint: string) {
