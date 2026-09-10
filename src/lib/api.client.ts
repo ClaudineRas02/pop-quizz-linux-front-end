@@ -1,8 +1,8 @@
 import axios from "axios";
 import APP_CONFIG from "../../app.config";
 
-const { hostname } = APP_CONFIG.API_CONFIG;
-const BASE_URL = `http://${hostname}/api`;
+const { hostname, port } = APP_CONFIG.API_CONFIG;
+const BASE_URL = `http://${hostname}${port ? `:${port}` : ""}/api`;
 
 function createClient(endpoint: string) {
   const client = axios.create({
@@ -17,6 +17,19 @@ function createClient(endpoint: string) {
     }
     return config;
   });
+
+  client.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      const message = error.response?.data?.message;
+
+      if (typeof message === "string") {
+        error.message = message;
+      }
+
+      return Promise.reject(error);
+    },
+  );
 
   return {
     get: <T>(url: string, params?: Record<string, unknown>) =>
